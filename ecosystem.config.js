@@ -1,18 +1,17 @@
-// ecosystem.config.js
 module.exports = {
   apps: [
     {
-      name: 'crypted-pay',
-      script: 'npm',
-      args: 'start',                 // next start (프로덕션)
+      name: "tapayz",
+      script: "yarn",
+      args: "start",
       watch: false,
       env: {
-        NODE_ENV: 'development',
-        PORT: 3000,                  // 개발이라도 Nginx 뒤에선 3000 고정 권장
+        NODE_ENV: "development",
+        PORT: 3000,
       },
       env_production: {
-        NODE_ENV: 'production',
-        PORT: 3000,                  // 운영도 3000
+        NODE_ENV: "production",
+        PORT: 3000,
       },
     },
   ],
