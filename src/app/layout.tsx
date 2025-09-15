@@ -4,8 +4,8 @@ import Providers from "@/_components/Providers";
 import { pretendard } from "@/_theme/fonts";
 
 export const metadata: Metadata = {
-  title: "CRYPTED PAY",
-  description: "CRYPTED PAY",
+  title: "TAPAYZ",
+  description: "TAPAYZ",
 };
 
 export default function RootLayout({
