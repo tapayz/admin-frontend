@@ -42,11 +42,17 @@ const Header = () => {
           </button>
           <BreadCrumb />
         </div>
+
+        <div>
+          <img src="/images/tapayz-top-logo.jpg" width="120" />
+        </div>
+
         <div css={headerCss.headerRight}>
           <Dropdown
             trigger={
               <button css={headerCss.profileButton}>
-                <span>{`${session?.name}`}</span>
+                <span>{`igmeta`}</span>
+                {/* <span>{`${session?.name}`}</span> */}
                 <ChevronDown size={14} color={theme.colors.coolGray700} />
               </button>
             }

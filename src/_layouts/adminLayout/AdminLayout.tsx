@@ -14,6 +14,7 @@ const AdminLayoutContainer = ({ children }: { children: React.ReactNode }) => {
       <Sidebar />
       <div className="w-full">
         <Header />
+        
         <main
           css={[adminLayoutCss.main, !isSideBar && adminLayoutCss.mainSideBar]}
           className="custom-scrollbar-not-hide"
