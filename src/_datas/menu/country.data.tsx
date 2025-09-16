@@ -19,6 +19,12 @@ export const countryData: Country[] = [
     icon: <Image src={koIcon} alt="한국어" width={18} height={18} />,
     code: "ko",
   },
+  {
+    id: 3,
+    name: '日本語',
+    icon: <Image src={jpIcon} alt="日本語" width={18} height={18} />,
+    code: 'jp',
+  }
   // {
   //   id: 3,
   //   name: '简体中文',
@@ -31,10 +37,5 @@ export const countryData: Country[] = [
   //   icon: <Image src={tcIcon} alt="繁體中文" width={18} height={18} />,
   //   code: 'tc',
   // },
-  // {
-  //   id: 5,
-  //   name: '日本語',
-  //   icon: <Image src={jpIcon} alt="日本語" width={18} height={18} />,
-  //   code: 'jp',
-  // },
+,
 ];
