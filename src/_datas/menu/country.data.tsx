@@ -21,10 +21,10 @@ export const countryData: Country[] = [
   },
   {
     id: 3,
-    name: '日本語',
+    name: "日本語",
     icon: <Image src={jpIcon} alt="日本語" width={18} height={18} />,
-    code: 'jp',
-  }
+    code: "jp",
+  },
   // {
   //   id: 3,
   //   name: '简体中文',
@@ -37,5 +37,4 @@ export const countryData: Country[] = [
   //   icon: <Image src={tcIcon} alt="繁體中文" width={18} height={18} />,
   //   code: 'tc',
   // },
-,
 ];
