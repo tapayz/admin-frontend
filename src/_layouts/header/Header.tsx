@@ -51,7 +51,7 @@ const Header = () => {
           <Dropdown
             trigger={
               <button css={headerCss.profileButton}>
-                <span>{`igmeta`}</span>
+                <span>{`tapadmin`}</span>
                 {/* <span>{`${session?.name}`}</span> */}
                 <ChevronDown size={14} color={theme.colors.coolGray700} />
               </button>
