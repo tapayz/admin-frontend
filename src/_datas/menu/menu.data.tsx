@@ -62,7 +62,7 @@ export const menuData: Menu[] = [
     items: [
       {
         text: "menu.api.documentation",
-        href: "https://docs.crypted-pay.com/cmmH3JSMHeGBpqEIYLHf/",
+        href: "https://docs.tapayz.com/",
         icon: <BookOpen />,
         newTab: true,
       },
