@@ -142,7 +142,7 @@
   "menu.transactions.deposits": "Deposits",
   "menu.transactions.invoice": "Invoices",
   "menu.transactions.withdrawals": "Withdrawals",
-  "menu.documentation": "Documentation", 
+  "menu.documentation": "Documentation",
   "menu.api.documentation": "API Documentation",
   "mpPage.changeInputButtonText": "Change",
   "myPage.apiKeyButtonText": "Generate API Key",
@@ -349,5 +349,9 @@
   "partner.table.status": "Active Status",
   "dashboard.thisMonthDeposits": "This Month Deposits",
   "dashboard.thisMonthWithdrawals": "This Month Withdrawals",
-  "dashboard.thisMonthTransactions": "This Month Transactions"
+  "dashboard.thisMonthTransactions": "This Month Transactions",
+  "dashboard.current": "Current",
+  "dashboard.status": "Status",
+  "dashboard.numberOfSubAgents": "Number Of Sub Agents",
+  "dashboard.numberOfMembers": "Number Of Members"
 }

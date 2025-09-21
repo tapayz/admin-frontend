@@ -349,5 +349,9 @@
   "partner.table.status": "활성화 여부",
   "dashboard.thisMonthDeposits": "이번달 입금",
   "dashboard.thisMonthWithdrawals": "이번달 출금",
-  "dashboard.thisMonthTransactions": "이번달 입출금 현황"
+  "dashboard.thisMonthTransactions": "이번달 입출금 현황",
+  "dashboard.current": "현재",
+  "dashboard.status": "현황",
+  "dashboard.numberOfSubAgents": "하위 에이전트 수",
+  "dashboard.numberOfMembers": "회원 수"
 }

@@ -83,10 +83,12 @@ const Dashboard = () => {
           </div>
         </div>
         <div css={dashboardCss.userInfoCountWrapper}>
-          <b css={dashboardCss.userInfoCountTitle}>현재 현황</b>
+          <b css={dashboardCss.userInfoCountTitle}>
+            {t("dashboard.current")} {t("dashboard.status")}
+          </b>
           <div css={dashboardCss.userInfoCount}>
-            <PotsSection label="하위 에이전트 수" value={3} />
-            <PotsSection label="회원 수" value={7} />
+            <PotsSection label={t("dashboard.numberOfSubAgents")} value={3} />
+            <PotsSection label={t("dashboard.numberOfMembers")} value={7} />
           </div>
         </div>
       </div>

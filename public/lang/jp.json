@@ -349,5 +349,9 @@
   "partner.table.status": "有効状態",
   "dashboard.thisMonthDeposits": "今月の入金",
   "dashboard.thisMonthWithdrawals": "今月の出金",
-  "dashboard.thisMonthTransactions": "今月の入出金状況"
+  "dashboard.thisMonthTransactions": "今月の入出金状況",
+  "dashboard.current": "現在",
+  "dashboard.status": "現況",
+  "dashboard.numberOfSubAgents": "下位エージェント数",
+  "dashboard.numberOfMembers": "会員数"
 }
