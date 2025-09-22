@@ -42,12 +42,7 @@ type Props = {
 };
 
 function PaymentCardTitle({ data, priceInfo }: Props) {
-  const { t, handleChangeLocale } = useLocale();
-
-  // Force locale to 'en'
-  React.useEffect(() => {
-    handleChangeLocale('en');
-  }, [handleChangeLocale]);
+  const { t } = useLocale();
 
   return (
     <>
