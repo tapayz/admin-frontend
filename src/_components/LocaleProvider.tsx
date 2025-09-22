@@ -17,15 +17,19 @@ function LocaleProvider({ children }: Props) {
       return;
     }
 
-    // 기본 언어를 'en'으로 강제 설정
+    // 기존 로직 (언어 감지 및 초기화)
     const langList = ['en', 'ko', 'jp'];
-    let lang = localStorage.getItem('lang');
-
-    // localStorage에 언어가 없으면 기본값을 'en'으로 설정
-    if (!lang) {
-      lang = 'en';
+    let lang;
+    if (localStorage.getItem('lang')) {
+      lang = localStorage.getItem('lang');
+      if (!lang) {
+        localStorage.removeItem('lang');
+      }
+    } else {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      lang = (navigator.language || navigator.userLanguage).split('-')[0];
     }
-
     const userLang = langList.find((l) => l?.toLowerCase() === lang?.toLowerCase())?.toLowerCase() || 'en';
     localStorage.setItem('lang', userLang);
 
@@ -34,7 +38,7 @@ function LocaleProvider({ children }: Props) {
       .use(initReactI18next)
       .init({
         lng: userLang,
-        fallbackLng: 'en',
+        fallbackLng: userLang,
         debug: false,
         interpolation: {
           escapeValue: false,

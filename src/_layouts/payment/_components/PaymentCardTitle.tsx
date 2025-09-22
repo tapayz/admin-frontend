@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowRight, Network, Package } from "lucide-react";
-import { useLocale } from "@/_hooks/useLocale";
+import { useTranslation } from "react-i18next";
 import { GetPaymentDetailResponseDto } from "../_dtos/getPaymentDetailResponse.dto";
 
 // Missing Avatar component - replaced with div
@@ -42,7 +42,14 @@ type Props = {
 };
 
 function PaymentCardTitle({ data, priceInfo }: Props) {
-  const { t } = useLocale();
+  const { t, i18n } = useTranslation();
+
+  // Force locale to 'en' for this component only
+  React.useEffect(() => {
+    if (i18n.language !== 'en') {
+      i18n.changeLanguage('en');
+    }
+  }, [i18n]);
 
   return (
     <>
