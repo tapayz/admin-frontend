@@ -6,7 +6,7 @@ interface LocaleStore {
 }
 
 export const useLocaleStore = create<LocaleStore>((set) => ({
-  locale: typeof window !== 'undefined' ? localStorage.getItem('lang') ?? 'ko' : 'ko',
+  locale: typeof window !== 'undefined' ? localStorage.getItem('lang') ?? 'en' : 'en',
   setLocale: (locale) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('lang', locale);

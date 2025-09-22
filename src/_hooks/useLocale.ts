@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 export const useLocale = () => {
   const localeData =
-    typeof window !== "undefined" ? localStorage.getItem("lang") : "ko";
+    typeof window !== "undefined" ? localStorage.getItem("lang") : "en";
 
   const { i18n, t } = useTranslation();
   const { locale, setLocale } = useLocaleStore();

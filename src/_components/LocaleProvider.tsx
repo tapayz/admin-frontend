@@ -18,7 +18,7 @@ function LocaleProvider({ children }: Props) {
     }
 
     // 기존 로직 (언어 감지 및 초기화)
-    const langList = ['en', 'ko'];
+    const langList = ['en', 'ko', 'jp'];
     let lang;
     if (localStorage.getItem('lang')) {
       lang = localStorage.getItem('lang');
@@ -30,7 +30,7 @@ function LocaleProvider({ children }: Props) {
       // @ts-ignore
       lang = (navigator.language || navigator.userLanguage).split('-')[0];
     }
-    const userLang = langList.find((l) => l?.toLowerCase() === lang?.toLowerCase())?.toLowerCase() || 'ko';
+    const userLang = langList.find((l) => l?.toLowerCase() === lang?.toLowerCase())?.toLowerCase() || 'en';
     localStorage.setItem('lang', userLang);
 
     i18n
