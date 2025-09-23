@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Integration Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 960px;
+        }
+        .scroll-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #4f46e5;
+            color: white;
+            padding: 12px;
+            border-radius: 9999px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s, visibility 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 10;
+        }
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-16">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                Partner Integration Guide
+            </h1>
+            <p class="mt-4 text-lg text-gray-500">
+                A guide to help you connect to our cryptocurrency payment platform securely and efficiently.
+            </p>
+        </header>
+
+        <nav class="bg-white p-6 rounded-xl shadow-md mb-12">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Table of Contents</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm md:text-base">
+                <a href="#section-1" class="text-blue-600 hover:text-blue-800 transition-colors">1. Getting Started</a>
+                <a href="#section-2" class="text-blue-600 hover:text-blue-800 transition-colors">2. Authentication & Security</a>
+                <a href="#section-3" class="text-blue-600 hover:text-blue-800 transition-colors">3. Customer Management API</a>
+                <a href="#section-4" class="text-blue-600 hover:text-blue-800 transition-colors">4. Invoice Issuance & Management</a>
+                <a href="#section-5" class="text-blue-600 hover:text-blue-800 transition-colors">5. Transaction Management API</a>
+                <a href="#section-6" class="text-blue-600 hover:text-blue-800 transition-colors">6. Asset & Pricing Information</a>
+                <a href="#section-7" class="text-blue-600 hover:text-blue-800 transition-colors">7. Response Codes & Error Handling</a>
+                <a href="#section-8" class="text-blue-600 hover:text-blue-800 transition-colors">8. Webhooks</a>
+                <a href="#section-9" class="text-blue-600 hover:text-blue-800 transition-colors">9. SDKs & Sample Code</a>
+                <a href="#section-10" class="text-blue-600 hover:text-blue-800 transition-colors">10. Operations Guide</a>
+                <a href="#section-11" class="text-blue-600 hover:text-blue-800 transition-colors">11. FAQ & Troubleshooting</a>
+                <a href="#section-12" class="text-blue-600 hover:text-blue-800 transition-colors">12. Appendix</a>
+            </div>
+        </nav>
+
+        <main class="space-y-12">
+            <section id="section-1" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">1. Getting Started</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">1.1 Service Overview</h3>
+                <p class="text-gray-600">Our cryptocurrency payment solution enables businesses to accept crypto payments with minimal effort and maximum security.</p>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Key Features</h4>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li>Real-time cryptocurrency payment processing</li>
+                    <li>Automatic FX rate calculation and application</li>
+                    <li>Integrated customer management system</li>
+                    <li>Invoice creation and tracking</li>
+                    <li>Support for multiple blockchain networks</li>
+                    <li>Comprehensive analytics and reporting</li>
+                </ul>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">1.2 Supported Assets & Networks</h3>
+                <div class="space-y-4">
+                    <div class="p-4 bg-blue-50 rounded-lg">
+                        <h4 class="text-xl font-medium text-blue-800">Supported Networks</h4>
+                        <ul class="list-disc list-inside mt-2 text-blue-700 space-y-1">
+                            <li><strong>TRON (TRX)</strong>: includes TRC-20 tokens</li>
+                            <li><strong>Ethereum (ETH)</strong>: includes ERC-20 tokens (rolling support)</li>
+                            <li><strong>Bitcoin (BTC)</strong>: Bitcoin network (rolling support)</li>
+                            <li><strong>Ripple (XRP)</strong>: Ripple network (rolling support)</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 bg-indigo-50 rounded-lg">
+                        <h4 class="text-xl font-medium text-indigo-800">Key Supported Assets</h4>
+                        <ul class="list-disc list-inside mt-2 text-indigo-700 space-y-1">
+                            <li><strong>TRX</strong>: native TRON coin</li>
+                            <li><strong>USDT-TRC20</strong>: Tether USD on TRON</li>
+                            <li><strong>ETH</strong>: native Ethereum coin</li>
+                            <li><strong>BTC</strong>: Bitcoin</li>
+                            <li><strong>Others</strong>: assorted ERC-20 and TRC-20 tokens</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">1.3 Partner Registration & API Key Issuance</h3>
+                <p class="text-gray-600">Follow the steps below to register as a partner and receive your API key.</p>
+                <div class="bg-gray-100 p-6 rounded-lg mt-4">
+                    <p class="text-gray-800 font-semibold mb-2">Registration Steps</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1">
+                        <li>Submit the partner registration application</li>
+                        <li>Identity verification and business license review</li>
+                        <li>Sign the service agreement</li>
+                        <li>Receive API key (visible on the operations platform & My Page)</li>
+                        <li>Access granted to the sandbox environment</li>
+                    </ol>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">1.4 Development Environment</h3>
+                <h4 class="text-xl font-medium text-gray-600">Base URLs</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>Production: <code>https://api.crypted-pay.com</code></li>
+                    <li>Stage: <code>https://stg-api.crypted-pay.com</code></li>
+                </ul>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Mandatory Requirements</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>HTTPS-only communication</li>
+                    <li>Requests and responses in JSON format</li>
+                    <li>UTF-8 encoding</li>
+                    <li><code>Content-Type: application/json</code></li>
+                </ul>
+            </section>
+
+            <section id="section-2" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">2. Authentication & Security</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">2.1 API Key Authentication</h3>
+                <p class="text-gray-600">Include your issued API key in the <code>Authorization</code> header for every API request.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">Authorization: YOUR_API_KEY</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">2.2 Required Request Headers</h3>
+                <h4 class="text-xl font-medium text-gray-600">Mandatory Headers</h4>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">Authorization: YOUR_API_KEY
+Content-Type: application/json
+Accept: application/json</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">2.3 Security Guidelines</h3>
+                <h4 class="text-xl font-medium text-gray-600">API Key Security</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>Only use API keys on the server side</li>
+                    <li>Never embed keys in client-side code</li>
+                    <li>Store keys in environment variables or secure vaults</li>
+                    <li>Rotate keys on a regular schedule</li>
+                </ul>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Network Security</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>Enforce HTTPS connections</li>
+                    <li>Use SSL/TLS 1.2 or higher</li>
+                    <li>Enable certificate validation</li>
+                </ul>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Data Security</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>Avoid logging sensitive information</li>
+                    <li>Encrypt customer data at rest</li>
+                    <li>Schedule regular security audits</li>
+                </ul>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">2.4 Callback Signature Verification</h3>
+                <p class="text-gray-600">We use <strong>HMAC-SHA256</strong> signatures to guarantee the integrity and authenticity of callback requests.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">signature = HMAC-SHA256(api_key, "POST|timestamp|JSON_payload")</code></pre>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Verification Example (Node.js)</h4>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-javascript">const crypto = require('crypto');
+
+function verifyCallbackSignature(method, timestamp, payload, signature, apiKey) {
+  const raw = `${method.toUpperCase()}|${timestamp}|${JSON.stringify(payload)}`;
+  const expectedSignature = crypto
+    .createHmac('sha256', apiKey)
+    .update(raw)
+    .digest('hex');
+
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(expectedSignature)
+  );
+}
+</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">2.5 IP Whitelist (Optional)</h3>
+                <p class="text-gray-600">Restrict API access to trusted IP addresses to strengthen security.</p>
+            </section>
+
+            <section id="section-3" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">3. Customer Management API</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">3.1 Create Customer</h3>
+                <p class="text-gray-600">Register a new customer in the system. A customer record is required to use the service.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "name": "Hong Gil-dong",
+  "country": "KR",
+  "email": {
+    "value": "hong@example.com",
+    "desc": "Work email"
+  },
+  "phone": {
+    "value": "010-1234-5678",
+    "desc": "Personal mobile"
+  },
+  "memo": "VIP customer"
+}
+</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">3.2 Retrieve Customer Information</h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li>Lookup by name: <code>GET /customer/{name}</code></li>
+                    <li>Detailed information: <code>GET /customer/detail?customerId=123</code></li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">3.3 List Customers</h3>
+                <p class="text-gray-600">Retrieve paginated customer records.</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Parameter</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>page</code></td>
+                                <td class="py-4 px-6 text-gray-600">Page number (default: 1)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>limit</code></td>
+                                <td class="py-4 px-6 text-gray-600">Items per page (default: 20, max: 100)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>search</code></td>
+                                <td class="py-4 px-6 text-gray-600">Search keyword (name, email, phone)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>sortBy</code></td>
+                                <td class="py-4 px-6 text-gray-600">Sort field (name, createdAt, updatedAt)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>sortOrder</code></td>
+                                <td class="py-4 px-6 text-gray-600">Sort order (asc, desc)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">3.4 Update Customer</h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li>Update name: <code>POST /customer/name</code></li>
+                    <li>Add contact: <code>POST /customer/contact</code></li>
+                    <li>Add memo: <code>POST /customer/memo</code></li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">3.5 Upload Customer Avatar</h3>
+                <p class="text-gray-600">Upload a profile icon for the customer.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">Endpoint: POST /customer/icon
+Content-Type: multipart/form-data</code></pre>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Supported Formats</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>JPEG, PNG, GIF</li>
+                    <li>Maximum file size: 5 MB</li>
+                    <li>Recommended resolution: 512x512 px</li>
+                </ul>
+            </section>
+
+            <section id="section-4" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">4. Invoice Issuance & Management</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">4.1 Create Invoice</h3>
+                <p class="text-gray-600">Issue an invoice to accept a cryptocurrency payment.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "customerId": 123,
+  "customerName": "Hong Gil-dong",
+  "title": "Purchase 100,000 KRW in USDT",
+  "priceAtRequest": 1350.5,
+  "fiatAssetId": 1,
+  "cryptoAssetId": 1001,
+  "cashAmount": 100000,
+  "expiredSecond": 600
+}
+</code></pre>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Field Description</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li><code>customerId</code>: Customer identifier</li>
+                    <li><code>customerName</code>: Customer name</li>
+                    <li><code>title</code>: Invoice title</li>
+                    <li><code>priceAtRequest</code>: FX rate at request time</li>
+                    <li><code>fiatAssetId</code>: Fiat asset ID (1 = KRW)</li>
+                    <li><code>cryptoAssetId</code>: Crypto asset ID (1001 = USDT-TRC20)</li>
+                    <li><code>cashAmount</code>: Fiat amount</li>
+                    <li><code>expiredSecond</code>: Expiration in seconds (default: 600)</li>
+                </ul>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Sample Response</h4>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "invoiceId": "inv_1234567890abcdef",
+    "paymentUrl": "https://pay.your-domain.com/invoice/inv_1234567890abcdef",
+    "depositAddress": "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
+    "network": "TRX",
+    "cryptoAmount": "74.074074",
+    "cashAmount": 100000,
+    "exchangeRate": 1350.5,
+    "status": "Ready",
+    "expiresAt": "2024-01-15T10:40:00Z"
+  }
+}
+</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">4.2 Retrieve Invoice Detail</h3>
+                <p class="text-gray-600">Fetch full details for a specific invoice.</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Parameter</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>invoiceId</code></td>
+                                <td class="py-4 px-6 text-gray-600">Invoice identifier</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">4.3 List Invoices</h3>
+                <p class="text-gray-600">Retrieve invoices filtered by various criteria.</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Parameter</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>page</code></td>
+                                <td class="py-4 px-6 text-gray-600">Page number (default: 1)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>limit</code></td>
+                                <td class="py-4 px-6 text-gray-600">Items per page (default: 20, max: 100)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>startAt</code></td>
+                                <td class="py-4 px-6 text-gray-600">Start date (ISO 8601)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>endAt</code></td>
+                                <td class="py-4 px-6 text-gray-600">End date (ISO 8601)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>customerId</code></td>
+                                <td class="py-4 px-6 text-gray-600">Filter by customer</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">4.4 Search Invoices</h3>
+                <p class="text-gray-600">Search invoices by keyword and status.</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Parameter</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>keyword</code></td>
+                                <td class="py-4 px-6 text-gray-600">Keyword (title, memo)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>status</code></td>
+                                <td class="py-4 px-6 text-gray-600">Invoice status (Ready, Pending, Complete, etc.)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>minAmount</code></td>
+                                <td class="py-4 px-6 text-gray-600">Minimum fiat amount</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>maxAmount</code></td>
+                                <td class="py-4 px-6 text-gray-600">Maximum fiat amount</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="section-5" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">5. Transaction Management API</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">5.1 Transaction History</h3>
+                <p class="text-gray-600">Retrieve a paginated list of transaction records.</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Parameter</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>page</code></td>
+                                <td class="py-4 px-6 text-gray-600">Page number (default: 1)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>limit</code></td>
+                                <td class="py-4 px-6 text-gray-600">Items per page (default: 20, max: 100)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>startAt</code></td>
+                                <td class="py-4 px-6 text-gray-600">Start date (ISO 8601)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>endAt</code></td>
+                                <td class="py-4 px-6 text-gray-600">End date (ISO 8601)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>customerId</code></td>
+                                <td class="py-4 px-6 text-gray-600">Filter by customer</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>status</code></td>
+                                <td class="py-4 px-6 text-gray-600">Transaction status (Complete, Fail, etc.)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>type</code></td>
+                                <td class="py-4 px-6 text-gray-600">Transaction type (Deposit, Withdraw)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.2 Withdrawal Request</h3>
+                <p class="text-gray-600">Create a withdrawal request for cryptocurrency.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "network": "TRX",
+  "assetId": 1001,
+  "address": "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
+  "amount": "100.000000",
+  "memo": "USDT withdrawal",
+  "customerId": 123
+}
+</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.3 Bulk Withdrawals</h3>
+                <p class="text-gray-600">Process withdrawals to multiple addresses simultaneously.</p>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li><strong>Endpoint:</strong> <code>POST /transaction/bulk-withdraw</code></li>
+                    <li><strong>Limitations:</strong> Up to 50 requests per batch; requests must share the same network and asset.</li>
+                </ul>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.4 Transaction Detail</h3>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">GET /transaction/detail/{id}</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.5 Search Transactions</h3>
+                <p class="text-gray-600">Search transactions using diverse filters.</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Parameter</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>keyword</code></td>
+                                <td class="py-4 px-6 text-gray-600">Keyword (title, memo)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>status</code></td>
+                                <td class="py-4 px-6 text-gray-600">Transaction status (Complete, Fail, etc.)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>type</code></td>
+                                <td class="py-4 px-6 text-gray-600">Transaction type (Deposit, Withdraw)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>network</code></td>
+                                <td class="py-4 px-6 text-gray-600">Network (TRX, ETH, etc.)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>minAmount</code></td>
+                                <td class="py-4 px-6 text-gray-600">Minimum amount</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>maxAmount</code></td>
+                                <td class="py-4 px-6 text-gray-600">Maximum amount</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.6 Update Transaction Status</h3>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">PUT /transaction/status</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.7 Recent Withdrawal Addresses</h3>
+                <p class="text-gray-600">Review the recent withdrawal addresses for a given asset.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">GET /transaction/recent?assetId=1001</code></pre>
+                </div>
+            </section>
+
+            <section id="section-6" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">6. Asset & Pricing Information</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">6.1 Real-Time FX Rates</h3>
+                <p class="text-gray-600">Retrieve live exchange rates with partner-specific fees applied.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">GET /asset/price</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">6.2 Real-Time Asset Pricing</h3>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">GET /asset/realtime-price/{assetId}</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">6.3 Supported Assets</h3>
+                <p class="text-gray-600">List of all fiat currencies and cryptocurrencies supported by the system.</p>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Fiat Assets (CASH)</h4>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Asset ID</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Symbol</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Name</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Network</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Type</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Decimals</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">1</td><td class="py-4 px-6 text-gray-600">KRW</td><td class="py-4 px-6 text-gray-600">Korean Won</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">0</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">2</td><td class="py-4 px-6 text-gray-600">USD</td><td class="py-4 px-6 text-gray-600">US Dollar</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">6</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">3</td><td class="py-4 px-6 text-gray-600">JPY</td><td class="py-4 px-6 text-gray-600">Japanese Yen</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h4 class="text-xl font-medium text-gray-600 mt-8">Cryptocurrencies (COIN/TOKEN)</h4>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Asset ID</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Symbol</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Name</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Network</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Type</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Decimals</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Contract Address</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">101</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">TRON</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">COIN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">-</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">102</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">Ethereum</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">COIN</td><td class="py-4 px-6 text-gray-600">18</td><td class="py-4 px-6 text-gray-600">-</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1001</td><td class="py-4 px-6 text-gray-600">USDT</td><td class="py-4 px-6 text-gray-600">Tether USD - TRC20</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">TOKEN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1002</td><td class="py-4 px-6 text-gray-600">USDT</td><td class="py-4 px-6 text-gray-600">Tether USD - ERC20</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">TOKEN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">0xdac17f958d2ee523a2206206994597c13d831ec7</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">6.4 Fee Policy</h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li><strong>Invoice issuance fee:</strong> partner-specific rate applied automatically to exchange rates</li>
+                    <li><strong>Withdrawal fee:</strong> fixed per network (TRX network fee varies, ETH gas fee varies, BTC fee configurable)</li>
+                </ul>
+            </section>
+
+            <section id="section-7" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">7. Response Codes & Error Handling</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">7.1 HTTP Status Codes</h3>
+                <p class="text-gray-600">Standard HTTP status codes returned by the API.</p>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li><strong>Success:</strong> <code>200 OK</code>, <code>201 Created</code></li>
+                    <li><strong>Client errors:</strong> <code>400 Bad Request</code>, <code>401 Unauthorized</code>, <code>403 Forbidden</code>, <code>404 Not Found</code>, <code>409 Conflict</code>, <code>429 Too Many Requests</code></li>
+                    <li><strong>Server errors:</strong> <code>500 Internal Server Error</code>, <code>502 Bad Gateway</code>, <code>503 Service Unavailable</code></li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">7.2 Error Code Definitions</h3>
+                <p class="text-gray-600">Detailed application-level error codes.</p>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li><strong>Authentication:</strong> <code>AUTH_REQUIRED</code>, <code>INVALID_API_KEY</code>, <code>API_KEY_EXPIRED</code>, <code>INSUFFICIENT_PERMISSION</code></li>
+                    <li><strong>Customer:</strong> <code>CUSTOMER_NOT_FOUND</code>, <code>CUSTOMER_NAME_EXISTS</code>, <code>INVALID_CUSTOMER_DATA</code></li>
+                    <li><strong>Invoice:</strong> <code>INVOICE_NOT_FOUND</code>, <code>INVOICE_EXPIRED</code>, <code>PRICE_FLUCTUATION_WARNING</code>, <code>CANNOT_CANCEL</code></li>
+                    <li><strong>Transaction:</strong> <code>TRANSACTION_NOT_FOUND</code>, <code>INVALID_ADDRESS</code>, <code>INSUFFICIENT_BALANCE</code>, <code>MINIMUM_AMOUNT_ERROR</code>, <code>WITHDRAW_DISABLED</code></li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">7.3 Error Response Format</h3>
+                <p class="text-gray-600">Standard response payload for failed requests.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "success": false,
+  "error": {
+    "code": "CUSTOMER_NOT_FOUND",
+    "message": "Customer not found",
+    "details": "customerId: 999 does not exist."
+  },
+  "timestamp": "2024-01-15T12:00:00Z",
+  "requestId": "req_1234567890"
+}
+</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">7.4 Common Troubleshooting Tips</h3>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li><strong>Authentication errors:</strong> verify API key, header format, expiration, and IP whitelist settings</li>
+                    <li><strong>Request format issues:</strong> confirm the <code>Content-Type</code> header, JSON structure, required fields, and data types</li>
+                </ul>
+            </section>
+
+            <section id="section-8" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">8. Webhooks</h2>
+                <p class="text-gray-600">Receive real-time notifications for invoice and transaction events to drive your business logic.</p>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">8.1 Configuration</h3>
+                <p class="text-gray-600">Register your webhook URL (e.g., <code>https://your-domain.com/webhook</code>) in the partner dashboard.</p>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">8.2 Invoice Webhook</h3>
+                <div class="bg-blue-50 p-6 rounded-lg mt-4 border-l-4 border-blue-400">
+                    <p class="text-blue-800 font-medium">Every invoice status change triggers a callback to <code>/callback/update-invoice</code>. Monitor payment completion, expiration, or failure in real time.</p>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Status Flow</h4>
+                <div class="bg-white p-6 rounded-lg mt-4 shadow-sm">
+                    <div class="mermaid-diagram text-center">
+                        <pre class="mermaid">
+graph TD
+    A[Ready] --> B[Pending]
+    A --> C[Cancel - expired]
+    B --> D[Complete]
+    B --> E[Fail]
+
+    A --> F[Waiting]
+    F --> B
+    F --> G[Reject]
+
+    style D fill:#4CAF50,stroke:#4CAF50,stroke-width:2px
+    style E fill:#F44336,stroke:#F44336,stroke-width:2px
+    style C fill:#FF9800,stroke:#FF9800,stroke-width:2px
+    style G fill:#FF5722,stroke:#FF5722,stroke-width:2px
+                        </pre>
+                    </div>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">8.3 Transaction Webhook</h3>
+                <div class="bg-blue-50 p-6 rounded-lg mt-4 border-l-4 border-blue-400">
+                    <p class="text-blue-800 font-medium">Blockchain detections and transaction status updates are delivered instantly so you can reconcile payments without delay.</p>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Transaction Lifecycle</h4>
+                <div class="bg-white p-6 rounded-lg mt-4 shadow-sm">
+                    <div class="mermaid-diagram text-center">
+                        <pre class="mermaid">
+graph TD
+    A[Blockchain detected] --> B[transaction.created]
+    B --> C[Pending]
+    C --> D{Confirmation}
+    D --> E[transaction.updated]
+    E --> F[Complete]
+    E --> G[Fail]
+
+    style B fill:#2196F3,stroke:#2196F3,stroke-width:2px
+    style E fill:#FF9800,stroke:#FF9800,stroke-width:2px
+    style F fill:#4CAF50,stroke:#4CAF50,stroke-width:2px
+    style G fill:#F44336,stroke:#F44336,stroke-width:2px
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section-9" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">9. SDKs & Sample Code</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">9.1 Supported SDKs</h3>
+                <p class="text-gray-600">Libraries and SDKs are available for multiple platforms.</p>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li>Node.js / JavaScript</li>
+                    <li>Python</li>
+                    <li>Java (Spring Boot)</li>
+                    <li>PHP</li>
+                    <li>C# (.NET)</li>
+                </ul>
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">9.2 REST API Examples</h3>
+                <p class="text-gray-600">Sample requests for cURL, Fetch API, and other environments.</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">curl -X GET "https://api.crypted-pay.com/customer/list" \
+  -H "Authorization: pk_live_1234567890abcdef" \
+  -H "Content-Type: application/json"</code></pre>
+                </div>
+            </section>
+
+            <section id="section-10" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">10. Operations Guide</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">10.1 Monitoring & Logging</h3>
+                <p class="text-gray-600">Monitor API latency, error rates, and transaction success ratios. Make sure to log every request and response for auditing.</p>
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">10.2 Rate Limits</h3>
+                <p class="text-gray-600">Default quota is 60 requests per minute. Exceeding the limit returns <code>HTTP 429</code>; implement exponential backoff when retrying.</p>
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">10.3 Incident Response</h3>
+                <p class="text-gray-600">Documented procedures cover delayed API responses, webhook delivery failures, and common network incidents.</p>
+            </section>
+
+            <section id="section-11" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">11. FAQ & Troubleshooting</h2>
+                <p class="text-gray-600">Frequently asked questions including solutions for <code>401 Unauthorized</code> errors, FX discrepancies, webhook issues, and more.</p>
+                <div class="bg-yellow-50 p-6 rounded-lg mt-4 border-l-4 border-yellow-400">
+                    <p class="text-yellow-800 font-medium"><strong>Q. I received a <code>401 Unauthorized</code> response.</strong></p>
+                    <p class="text-yellow-700 mt-2"><strong>A.</strong> Double-check your API key, IP whitelist, and permissions. You can verify API key status in the operations platform.</p>
+                </div>
+                <div class="bg-yellow-50 p-6 rounded-lg mt-6 border-l-4 border-yellow-400">
+                    <p class="text-yellow-800 font-medium"><strong>Q. Webhook notifications are not arriving.</strong></p>
+                    <p class="text-yellow-700 mt-2"><strong>A.</strong> Verify the HTTPS configuration of the registered callback URL, inspect firewall settings, and confirm signature validation logic.</p>
+                </div>
+            </section>
+
+            <section id="section-12" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">12. Appendix</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">A. Address Formats by Network</h3>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li><strong>TRON (TRX):</strong> 34 characters, begins with “T” (e.g., <code>TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE</code>)</li>
+                    <li><strong>Ethereum (ETH):</strong> 42 characters (including 0x), begins with “0x” (e.g., <code>0x742d35Cc6634C0532925a3b8D2e4d8A4c7C6b0a5</code>)</li>
+                    <li><strong>Bitcoin (BTC):</strong> 26–35 characters, begins with “1”, “3”, or “bc1” (e.g., <code>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</code>)</li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">B. Supported Asset List</h3>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">Fiat Currencies (CASH)</h4>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Asset ID</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Symbol</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Name</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Network</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Type</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Decimals</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">1</td><td class="py-4 px-6 text-gray-600">KRW</td><td class="py-4 px-6 text-gray-600">Korean Won</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">0</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">2</td><td class="py-4 px-6 text-gray-600">USD</td><td class="py-4 px-6 text-gray-600">US Dollar</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">6</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">3</td><td class="py-4 px-6 text-gray-600">JPY</td><td class="py-4 px-6 text-gray-600">Japanese Yen</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h4 class="text-xl font-medium text-gray-600 mt-8">Cryptocurrencies (COIN/TOKEN)</h4>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Asset ID</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Symbol</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Name</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Network</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Type</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Decimals</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Contract Address</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">101</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">TRON</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">COIN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">-</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">102</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">Ethereum</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">COIN</td><td class="py-4 px-6 text-gray-600">18</td><td class="py-4 px-6 text-gray-600">-</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1001</td><td class="py-4 px-6 text-gray-600">USDT</td><td class="py-4 px-6 text-gray-600">Tether USD - TRC20</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">TOKEN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1002</td><td class="py-4 px-6 text-gray-600">USDT</td><td class="py-4 px-6 text-gray-600">Tether USD - ERC20</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">TOKEN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">0xdac17f958d2ee523a2206206994597c13d831ec7</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">C. Revision History</h3>
+                <p class="text-gray-600">Document version history and major updates.</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Version</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Change</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">1.0.0</td><td class="py-4 px-6 text-gray-600">Initial publication</td><td class="py-4 px-6 text-gray-600">2024.01.01</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1.0.1</td><td class="py-4 px-6 text-gray-600">Added API key issuance flow and FAQ section</td><td class="py-4 px-6 text-gray-600">2024.01.15</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1.1.0</td><td class="py-4 px-6 text-gray-600">Added webhook signature guide and Mermaid diagrams</td><td class="py-4 px-6 text-gray-600">2024.02.01</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="mt-16 text-center text-gray-500 text-sm">
+            <p>&copy; 2024 Crypto Payment Solution. All rights reserved.</p>
+            <p class="mt-2">This document was created to support seamless partner integrations. Please contact us anytime if you have additional questions.</p>
+        </footer>
+    </div>
+
+    <button id="scrollToTopBtn" class="scroll-to-top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
+    <script>
+        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add("visible");
+            } else {
+                scrollToTopBtn.classList.remove("visible");
+            }
+        });
+        scrollToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+</body>
+</html>

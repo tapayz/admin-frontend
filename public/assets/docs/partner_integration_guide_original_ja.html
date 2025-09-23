@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パートナー連携ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 960px;
+        }
+        .scroll-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #4f46e5;
+            color: white;
+            padding: 12px;
+            border-radius: 9999px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s, visibility 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 10;
+        }
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-16">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                パートナー連携ガイド
+            </h1>
+            <p class="mt-4 text-lg text-gray-500">
+                安全で効率的な暗号通貨決済システム連携のためのガイドです。
+            </p>
+        </header>
+
+        <nav class="bg-white p-6 rounded-xl shadow-md mb-12">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">目次</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm md:text-base">
+                <a href="#section-1" class="text-blue-600 hover:text-blue-800 transition-colors">1. はじめに</a>
+                <a href="#section-2" class="text-blue-600 hover:text-blue-800 transition-colors">2. 認証とセキュリティ</a>
+                <a href="#section-3" class="text-blue-600 hover:text-blue-800 transition-colors">3. 顧客管理API</a>
+                <a href="#section-4" class="text-blue-600 hover:text-blue-800 transition-colors">4. インボイス発行・管理</a>
+                <a href="#section-5" class="text-blue-600 hover:text-blue-800 transition-colors">5. 取引管理API</a>
+                <a href="#section-6" class="text-blue-600 hover:text-blue-800 transition-colors">6. 資産・価格情報</a>
+                <a href="#section-7" class="text-blue-600 hover:text-blue-800 transition-colors">7. レスポンス・エラー処理</a>
+                <a href="#section-8" class="text-blue-600 hover:text-blue-800 transition-colors">8. ウェブフック</a>
+                <a href="#section-9" class="text-blue-600 hover:text-blue-800 transition-colors">9. SDK・サンプルコード</a>
+                <a href="#section-10" class="text-blue-600 hover:text-blue-800 transition-colors">10. 運用ガイド</a>
+                <a href="#section-11" class="text-blue-600 hover:text-blue-800 transition-colors">11. FAQ・トラブルシューティング</a>
+                <a href="#section-12" class="text-blue-600 hover:text-blue-800 transition-colors">12. 付録</a>
+            </div>
+        </nav>
+
+        <main class="space-y-12">
+            <section id="section-1" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">1. はじめに</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">1.1 サービス概要</h3>
+                <p class="text-gray-600">弊社の暗号通貨決済ソリューションは、企業が簡単かつ安全に暗号通貨決済を受け入れることができるサービスです。</p>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">主な機能：</h4>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li>リアルタイム暗号通貨決済処理</li>
+                    <li>自動為替レート計算・適用</li>
+                    <li>顧客管理システム</li>
+                    <li>インボイス発行・追跡</li>
+                    <li>マルチネットワーク対応</li>
+                    <li>統計・レポート機能</li>
+                </ul>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">1.2 対応暗号通貨・ネットワーク</h3>
+                <div class="space-y-4">
+                    <div class="p-4 bg-blue-50 rounded-lg">
+                        <h4 class="text-xl font-medium text-blue-800">対応ネットワーク</h4>
+                        <ul class="list-disc list-inside mt-2 text-blue-700 space-y-1">
+                            <li><strong>TRON (TRX)</strong>: TRC-20トークンを含む</li>
+                            <li><strong>Ethereum (ETH)</strong>: ERC-20トークンを含む（順次対応）</li>
+                            <li><strong>Bitcoin (BTC)</strong>: ビットコインネットワーク（順次対応）</li>
+                            <li><strong>Ripple (XRP)</strong>: リップルネットワーク（順次対応）</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 bg-indigo-50 rounded-lg">
+                        <h4 class="text-xl font-medium text-indigo-800">主な対応資産</h4>
+                        <ul class="list-disc list-inside mt-2 text-indigo-700 space-y-1">
+                            <li><strong>TRX</strong>: TRONネイティブコイン</li>
+                            <li><strong>USDT-TRC20</strong>: Tether USD（TRONネットワーク）</li>
+                            <li><strong>ETH</strong>: Ethereumネイティブコイン</li>
+                            <li><strong>BTC</strong>: Bitcoin</li>
+                            <li><strong>その他</strong>: 各種ERC-20、TRC-20トークン</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">1.3 パートナー登録・APIキー発行</h3>
+                <p class="text-gray-600">パートナー登録手続きとAPIキー発行についてのご案内です。</p>
+                <div class="bg-gray-100 p-6 rounded-lg mt-4">
+                    <p class="text-gray-800 font-semibold mb-2">登録手続き：</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1">
+                        <li>パートナー登録申請書の提出</li>
+                        <li>本人確認・事業者登録証明書の審査</li>
+                        <li>契約書の締結</li>
+                        <li>APIキー発行（運用プラットフォーム、マイページで確認可能）</li>
+                        <li>テスト環境アクセス提供</li>
+                    </ol>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">1.4 開発環境設定</h3>
+                <h4 class="text-xl font-medium text-gray-600">Base URL:</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>Production: <code>https://api.crypted-pay.com</code></li>
+                    <li>Stage : <code>https://stg-api.crypted-pay.com</code></li>
+                </ul>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">必須要件：</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>HTTPS通信必須</li>
+                    <li>JSON形式のリクエスト・レスポンス</li>
+                    <li>UTF-8エンコーディング</li>
+                    <li>Content-Type: <code>application/json</code></li>
+                </ul>
+            </section>
+
+            <section id="section-2" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">2. 認証とセキュリティ</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">2.1 APIキー認証方式</h3>
+                <p class="text-gray-600">すべてのAPIリクエストには、発行されたAPIキーを<code>Authorization</code>ヘッダーに含める必要があります。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">Authorization: YOUR_API_KEY</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">2.2 リクエストヘッダー設定</h3>
+                <h4 class="text-xl font-medium text-gray-600">必須ヘッダー：</h4>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">Authorization: YOUR_API_KEY
+Content-Type: application/json
+Accept: application/json</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">2.3 セキュリティガイドライン</h3>
+                <h4 class="text-xl font-medium text-gray-600">APIキーセキュリティ：</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>APIキーはサーバーサイドでのみ使用</li>
+                    <li>クライアントサイドコードへの組み込み禁止</li>
+                    <li>環境変数またはセキュアストレージに保存</li>
+                    <li>定期的なキーローテーション推奨</li>
+                </ul>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">ネットワークセキュリティ：</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>HTTPS通信必須</li>
+                    <li>SSL/TLS 1.2以上使用</li>
+                    <li>証明書検証の有効化</li>
+                </ul>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">データセキュリティ：</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>機密情報のログ記録禁止</li>
+                    <li>顧客情報の暗号化保存</li>
+                    <li>定期的なセキュリティ監査</li>
+                </ul>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">2.4 コールバック署名認証</h3>
+                <p class="text-gray-600">コールバックリクエストの完全性と信頼性を保証するため、<strong>HMAC-SHA256</strong>ベースの署名認証を使用します。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">signature = HMAC-SHA256(api_key, "POST|timestamp|JSON_payload")</code></pre>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">署名検証例（Node.js）：</h4>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-javascript">const crypto = require('crypto');
+
+function verifyCallbackSignature(method, timestamp, payload, signature, apiKey) {
+  const raw = `${method.toUpperCase()}|${timestamp}|${JSON.stringify(payload)}`;
+  const expectedSignature = crypto
+    .createHmac('sha256', apiKey)
+    .update(raw)
+    .digest('hex');
+
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(expectedSignature)
+  );
+}</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">2.5 IPホワイトリスト（オプション）</h3>
+                <p class="text-gray-600">セキュリティ強化のため、特定のIPアドレスからのみAPIアクセスを許可することができます。</p>
+            </section>
+
+            <section id="section-3" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">3. 顧客管理API</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">3.1 顧客登録</h3>
+                <p class="text-gray-600">新しい顧客をシステムに登録します。サービスをご利用いただくには顧客登録が必須です。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "name": "田中太郎",
+  "country": "JP",
+  "email": {
+    "value": "tanaka@example.com",
+    "desc": "業務用メール"
+  },
+  "phone": {
+    "value": "090-1234-5678",
+    "desc": "個人携帯"
+  },
+  "memo": "VIP顧客"
+}</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">3.2 顧客情報照会</h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li>名前による照会: <code>GET /customer/{name}</code></li>
+                    <li>詳細情報照会: <code>GET /customer/detail?customerId=123</code></li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">3.3 顧客リスト照会</h3>
+                <p class="text-gray-600">ページネーション対応の顧客リスト照会</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">パラメータ</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>page</code></td>
+                                <td class="py-4 px-6 text-gray-600">ページ番号（デフォルト: 1）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>limit</code></td>
+                                <td class="py-4 px-6 text-gray-600">ページあたり項目数（デフォルト: 20、最大: 100）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>search</code></td>
+                                <td class="py-4 px-6 text-gray-600">検索キーワード（名前、メール、電話番号）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>sortBy</code></td>
+                                <td class="py-4 px-6 text-gray-600">ソート基準（name、createdAt、updatedAt）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>sortOrder</code></td>
+                                <td class="py-4 px-6 text-gray-600">ソート順序（asc、desc）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">3.4 顧客情報修正</h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li>名前修正: <code>POST /customer/name</code></li>
+                    <li>連絡先追加: <code>POST /customer/contact</code></li>
+                    <li>メモ追加: <code>POST /customer/memo</code></li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">3.5 顧客アイコンアップロード</h3>
+                <p class="text-gray-600">顧客のプロフィールアイコンをアップロードします。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">Endpoint: POST /customer/icon
+Content-Type: multipart/form-data</code></pre>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">対応形式：</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+                    <li>JPEG、PNG、GIF</li>
+                    <li>最大ファイルサイズ: 5MB</li>
+                    <li>推奨解像度: 512x512px</li>
+                </ul>
+            </section>
+
+            <section id="section-4" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">4. インボイス発行・管理</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">4.1 インボイス発行</h3>
+                <p class="text-gray-600">暗号通貨決済のためのインボイスを発行します。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "customerId": 123,
+  "customerName": "田中太郎",
+  "title": "USDT 10万円購入",
+  "priceAtRequest": 155.5,
+  "fiatAssetId": 3,
+  "cryptoAssetId": 1001,
+  "cashAmount": 100000,
+  "expiredSecond": 600
+}</code></pre>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">フィールド説明：</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li><code>customerId</code>: 顧客ID</li>
+                    <li><code>customerName</code>: 顧客名</li>
+                    <li><code>title</code>: インボイスタイトル</li>
+                    <li><code>priceAtRequest</code>: リクエスト時点の為替レート</li>
+                    <li><code>fiatAssetId</code>: 法定通貨資産ID（3: JPY）</li>
+                    <li><code>cryptoAssetId</code>: 暗号通貨資産ID（1001: USDT-TRC20）</li>
+                    <li><code>cashAmount</code>: 法定通貨金額</li>
+                    <li><code>expiredSecond</code>: 有効期限（秒、デフォルト: 600）</li>
+                </ul>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">レスポンス例：</h4>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "invoiceId": "inv_1234567890abcdef",
+    "paymentUrl": "https://pay.your-domain.com/invoice/inv_1234567890abcdef",
+    "depositAddress": "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
+    "network": "TRX",
+    "cryptoAmount": "643.086",
+    "cashAmount": 100000,
+    "exchangeRate": 155.5,
+    "status": "Ready",
+    "expiresAt": "2024-01-15T10:40:00Z"
+  }
+}</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">4.2 インボイス詳細照会</h3>
+                <p class="text-gray-600">特定インボイスの詳細情報を照会します。</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">パラメータ</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>invoiceId</code></td>
+                                <td class="py-4 px-6 text-gray-600">インボイスID</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">4.3 インボイスリスト照会</h3>
+                <p class="text-gray-600">さまざまな条件でインボイスリストを照会します。</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">パラメータ</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>page</code></td>
+                                <td class="py-4 px-6 text-gray-600">ページ番号（デフォルト: 1）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>limit</code></td>
+                                <td class="py-4 px-6 text-gray-600">ページあたり項目数（デフォルト: 20、最大: 100）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>startAt</code></td>
+                                <td class="py-4 px-6 text-gray-600">開始日（ISO 8601）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>endAt</code></td>
+                                <td class="py-4 px-6 text-gray-600">終了日（ISO 8601）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>customerId</code></td>
+                                <td class="py-4 px-6 text-gray-600">特定顧客フィルター</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">4.4 インボイス検索</h3>
+                <p class="text-gray-600">さまざまな条件でインボイスを検索します。</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">パラメータ</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>keyword</code></td>
+                                <td class="py-4 px-6 text-gray-600">検索キーワード（タイトル、内容）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>status</code></td>
+                                <td class="py-4 px-6 text-gray-600">インボイスステータス（Ready、Pending、Complete等）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>minAmount</code></td>
+                                <td class="py-4 px-6 text-gray-600">最小金額</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>maxAmount</code></td>
+                                <td class="py-4 px-6 text-gray-600">最大金額</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>startDate</code></td>
+                                <td class="py-4 px-6 text-gray-600">開始日（ISO 8601）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>endDate</code></td>
+                                <td class="py-4 px-6 text-gray-600">終了日（ISO 8601）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>page</code></td>
+                                <td class="py-4 px-6 text-gray-600">ページ番号（デフォルト: 1）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>limit</code></td>
+                                <td class="py-4 px-6 text-gray-600">ページあたり項目数（デフォルト: 20、最大: 100）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">4.5 インボイスキャンセル</h3>
+                <p class="text-gray-600">インボイスをキャンセルします。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "invoiceId": "inv_1234567890abcdef",
+  "reason": "顧客のリクエストによるキャンセル"
+}</code></pre>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">キャンセル可能条件：</h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li><code>Ready</code>または<code>Wait</code>状態のインボイスのみキャンセル可能</li>
+                    <li>すでに完了した取引はキャンセル不可</li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">4.6 インボイス統計</h3>
+                <p class="text-gray-600">インボイス関連統計を照会します。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "totalCount": 150,
+    "statusBreakdown": { "Ready": 100, "Complete": 45, "Cancel": 5 },
+    "totalAmount": "15000000.00",
+    "completedAmount": "14200000.00",
+    "averageAmount": "100000.00",
+    "last7Days": [ ... ]
+  }
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="section-5" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">5. 取引管理API</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">5.1 取引履歴照会</h3>
+                <p class="text-gray-600">パートナーのすべての取引履歴を照会します。</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">パラメータ</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>page</code></td>
+                                <td class="py-4 px-6 text-gray-600">ページ番号（デフォルト: 1）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>limit</code></td>
+                                <td class="py-4 px-6 text-gray-600">ページあたり項目数（デフォルト: 20、最大: 100）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>startAt</code></td>
+                                <td class="py-4 px-6 text-gray-600">開始日（ISO 8601）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>endAt</code></td>
+                                <td class="py-4 px-6 text-gray-600">終了日（ISO 8601）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>customerId</code></td>
+                                <td class="py-4 px-6 text-gray-600">特定顧客フィルター</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>status</code></td>
+                                <td class="py-4 px-6 text-gray-600">取引ステータス（Complete、Fail等）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>type</code></td>
+                                <td class="py-4 px-6 text-gray-600">取引タイプ（Deposit、Withdraw）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.2 出金リクエスト</h3>
+                <p class="text-gray-600">暗号通貨の出金をリクエストします。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "network": "TRX",
+  "assetId": 1001,
+  "address": "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
+  "amount": "100.000000",
+  "memo": "USDT出金リクエスト",
+  "customerId": 123
+}</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.3 一括出金処理</h3>
+                <p class="text-gray-600">複数のアドレスに同時に出金を処理します。</p>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li><strong>Endpoint:</strong> <code>POST /transaction/bulk-withdraw</code></li>
+                    <li><strong>制限事項:</strong> 最大50件まで同時処理、同一ネットワーク/資産のみ処理可能</li>
+                </ul>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.4 取引詳細照会</h3>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">GET /transaction/detail/{id}</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.5 取引検索</h3>
+                <p class="text-gray-600">さまざまな条件で取引を検索します。</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">パラメータ</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>keyword</code></td>
+                                <td class="py-4 px-6 text-gray-600">検索キーワード（タイトル、内容）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>status</code></td>
+                                <td class="py-4 px-6 text-gray-600">取引ステータス（Complete、Fail等）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>type</code></td>
+                                <td class="py-4 px-6 text-gray-600">取引タイプ（Deposit、Withdraw）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>network</code></td>
+                                <td class="py-4 px-6 text-gray-600">ネットワーク（TRX、ETH等）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>minAmount</code></td>
+                                <td class="py-4 px-6 text-gray-600">最小金額</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>maxAmount</code></td>
+                                <td class="py-4 px-6 text-gray-600">最大金額</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>startDate</code></td>
+                                <td class="py-4 px-6 text-gray-600">開始日（ISO 8601）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>endDate</code></td>
+                                <td class="py-4 px-6 text-gray-600">終了日（ISO 8601）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>sortBy</code></td>
+                                <td class="py-4 px-6 text-gray-600">ソート基準（createdAt、updatedAt等）</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 whitespace-nowrap text-gray-800"><code>sortOrder</code></td>
+                                <td class="py-4 px-6 text-gray-600">ソート順序（asc、desc）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.6 取引ステータス更新</h3>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">PUT /transaction/status</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">5.7 最近の出金アドレス照会</h3>
+                <p class="text-gray-600">特定資産の最近の出金アドレスを照会します。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">GET /transaction/recent?assetId=1001</code></pre>
+                </div>
+            </section>
+
+            <section id="section-6" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">6. 資産・価格情報</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">6.1 リアルタイム為替レート照会</h3>
+                <p class="text-gray-600">パートナー別手数料率が反映されたリアルタイム為替レートを照会します。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">GET /asset/price</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">6.2 リアルタイム資産価格</h3>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">GET /asset/realtime-price/{assetId}</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">6.3 対応資産リスト</h3>
+                <p class="text-gray-600">システムで対応しているすべての資産リストです。</p>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">法定通貨（CASH）：</h4>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Asset ID</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Symbol</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Name</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Network</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Type</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Decimals</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">1</td><td class="py-4 px-6 text-gray-600">KRW</td><td class="py-4 px-6 text-gray-600">Korean Won</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">0</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">2</td><td class="py-4 px-6 text-gray-600">USD</td><td class="py-4 px-6 text-gray-600">USD Dollar</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">6</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">3</td><td class="py-4 px-6 text-gray-600">JPY</td><td class="py-4 px-6 text-gray-600">Japanese Yen</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h4 class="text-xl font-medium text-gray-600 mt-8">暗号通貨（COIN/TOKEN）：</h4>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Asset ID</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Symbol</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Name</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Network</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Type</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Decimals</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Contract Address</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">101</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">TRON</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">COIN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">-</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">102</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">Ethereum</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">COIN</td><td class="py-4 px-6 text-gray-600">18</td><td class="py-4 px-6 text-gray-600">-</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1001</td><td class="py-4 px-6 text-gray-600">USDT</td><td class="py-4 px-6 text-gray-600">Tether USD - TRC20</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">TOKEN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1002</td><td class="py-4 px-6 text-gray-600">USDT</td><td class="py-4 px-6 text-gray-600">Tether USD - ERC20</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">TOKEN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">0xdac17f958d2ee523a2206206994597c13d831ec7</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">6.4 手数料ポリシー</h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    <li><strong>インボイス発行手数料：</strong> パートナー別個別協議手数料率適用、為替レートに手数料率自動反映</li>
+                    <li><strong>出金手数料：</strong> ネットワーク別固定手数料、TRXネットワーク（ネットワーク使用料変動）、ETHネットワーク（ガス代変動）、BTCネットワーク（ユーザー設定可能）</li>
+                </ul>
+            </section>
+
+            <section id="section-7" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">7. レスポンスコード・エラー処理</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">7.1 HTTPステータスコード</h3>
+                <p class="text-gray-600">APIリクエストのHTTPステータスコードです。</p>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li><strong>成功レスポンス：</strong> <code>200 OK</code>、<code>201 Created</code></li>
+                    <li><strong>クライアントエラー：</strong> <code>400 Bad Request</code>、<code>401 Unauthorized</code>、<code>403 Forbidden</code>、<code>404 Not Found</code>、<code>409 Conflict</code>、<code>429 Too Many Requests</code></li>
+                    <li><strong>サーバーエラー：</strong> <code>500 Internal Server Error</code>、<code>502 Bad Gateway</code>、<code>503 Service Unavailable</code></li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">7.2 エラーコード定義</h3>
+                <p class="text-gray-600">システムで定義された詳細エラーコードです。</p>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li><strong>認証関連：</strong> <code>AUTH_REQUIRED</code>、<code>INVALID_API_KEY</code>、<code>API_KEY_EXPIRED</code>、<code>INSUFFICIENT_PERMISSION</code></li>
+                    <li><strong>顧客管理：</strong> <code>CUSTOMER_NOT_FOUND</code>、<code>CUSTOMER_NAME_EXISTS</code>、<code>INVALID_CUSTOMER_DATA</code></li>
+                    <li><strong>インボイス関連：</strong> <code>INVOICE_NOT_FOUND</code>、<code>INVOICE_EXPIRED</code>、<code>PRICE_FLUCTUATION_WARNING</code>、<code>CANNOT_CANCEL</code></li>
+                    <li><strong>取引関連：</strong> <code>TRANSACTION_NOT_FOUND</code>、<code>INVALID_ADDRESS</code>、<code>INSUFFICIENT_BALANCE</code>、<code>MINIMUM_AMOUNT_ERROR</code>、<code>WITHDRAW_DISABLED</code></li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">7.3 エラーレスポンス形式</h3>
+                <p class="text-gray-600">エラー発生時の標準化されたレスポンス形式です。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-json">{
+  "success": false,
+  "error": {
+    "code": "CUSTOMER_NOT_FOUND",
+    "message": "顧客が見つかりません。",
+    "details": "customerId: 999は存在しない顧客です。"
+  },
+  "timestamp": "2024-01-15T12:00:00Z",
+  "requestId": "req_1234567890"
+}</code></pre>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">7.4 一般的なエラー解決方法</h3>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li><strong>認証エラー：</strong> APIキー・ヘッダー形式確認、有効期限、IPホワイトリスト設定確認</li>
+                    <li><strong>リクエスト形式エラー：</strong> <code>Content-Type</code>ヘッダー、JSON形式、必須フィールド・データタイプ確認</li>
+                </ul>
+            </section>
+
+            <section id="section-8" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">8. ウェブフック（Webhook）</h2>
+                <p class="text-gray-600">ウェブフックを通じてリアルタイムでイベント通知を受け取ることができます。インボイス・取引ステータスの変化を追跡してビジネスロジックを処理できます。</p>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">8.1 ウェブフック設定</h3>
+                <p class="text-gray-600">パートナーダッシュボードでウェブフックURL登録（<code>https://your-domain.com/webhook</code>形式）</p>
+
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">8.2 インボイスWebhook</h3>
+                <div class="bg-blue-50 p-6 rounded-lg mt-4 border-l-4 border-blue-400">
+                    <p class="text-blue-800 font-medium">インボイスのステータスが変更されるたびに<code>/callback/update-invoice</code>エンドポイントへリアルタイム通知を送信します。決済完了、期限切れ、失敗などのステータス変更を即座に検知してビジネスロジックを処理できます。</p>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">ステータス変更フロー</h4>
+                <div class="bg-white p-6 rounded-lg mt-4 shadow-sm">
+                    <div class="mermaid-diagram text-center">
+                        <pre class="mermaid">
+graph TD
+    A[Ready] --> B[Pending]
+    A --> C[Cancel - 期限切れ]
+    B --> D[Complete]
+    B --> E[Fail]
+    
+    A --> F[Wait]
+    F --> B
+    F --> G[Reject]
+    
+    style D fill:#4CAF50,stroke:#4CAF50,stroke-width:2px
+    style E fill:#F44336,stroke:#F44336,stroke-width:2px
+    style C fill:#FF9800,stroke:#FF9800,stroke-width:2px
+    style G fill:#FF5722,stroke:#FF5722,stroke-width:2px
+                        </pre>
+                    </div>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">8.3 トランザクションWebhook</h3>
+                <div class="bg-blue-50 p-6 rounded-lg mt-4 border-l-4 border-blue-400">
+                    <p class="text-blue-800 font-medium">ブロックチェーンでトランザクションが検出されたり、ステータスが変更されるたびにリアルタイム通知を送信します。決済トランザクションのライフサイクルを追跡して正確な決済処理を保証できます。</p>
+                </div>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">トランザクションライフサイクル</h4>
+                <div class="bg-white p-6 rounded-lg mt-4 shadow-sm">
+                    <div class="mermaid-diagram text-center">
+                        <pre class="mermaid">
+graph TD
+    A[ブロックチェーン検出] --> B[transaction.created]
+    B --> C[Pending状態]
+    C --> D{コンファーム待機}
+    D --> E[transaction.updated]
+    E --> F[Complete]
+    E --> G[Fail]
+    
+    style B fill:#2196F3,stroke:#2196F3,stroke-width:2px
+    style E fill:#FF9800,stroke:#FF9800,stroke-width:2px
+    style F fill:#4CAF50,stroke:#4CAF50,stroke-width:2px
+    style G fill:#F44336,stroke:#F44336,stroke-width:2px
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section-9" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">9. SDK・サンプルコード</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">9.1 対応SDK</h3>
+                <p class="text-gray-600">さまざまな言語・プラットフォーム向けのSDKを提供します。</p>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li>Node.js / JavaScript</li>
+                    <li>Python</li>
+                    <li>Java (Spring Boot)</li>
+                    <li>PHP</li>
+                    <li>C# (.NET)</li>
+                </ul>
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">9.2 REST API呼び出し例</h3>
+                <p class="text-gray-600">cURL、JavaScript（Fetch API）など、さまざまな環境でAPIを呼び出すサンプルコードを提供します。</p>
+                <div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto mt-4">
+                    <pre><code class="language-text">curl -X GET "https://api.crypted-pay.com/customer/list" \
+  -H "Authorization: pk_live_1234567890abcdef" \
+  -H "Content-Type: application/json"</code></pre>
+                </div>
+            </section>
+
+            <section id="section-10" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">10. 運用ガイド</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">10.1 モニタリング・ログ記録</h3>
+                <p class="text-gray-600">APIレスポンス時間、エラー率、取引成功率などをモニタリングし、すべてのリクエスト・レスポンスをログ記録することが重要です。</p>
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">10.2 レート制限</h3>
+                <p class="text-gray-600">API呼び出しには基本的に分当たり60回などの制限があります。超過時は<code>HTTP 429</code>レスポンスを受け取り、指数バックオフ方式での再試行を推奨します。</p>
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">10.3 障害対応</h3>
+                <p class="text-gray-600">APIレスポンス遅延、ウェブフック送信失敗、ネットワーク障害など、一般的な障害状況への対応方案が説明されています。</p>
+            </section>
+
+            <section id="section-11" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">11. FAQ・トラブルシューティング</h2>
+                <p class="text-gray-600">よくある質問とともに、<code>401 Unauthorized</code>エラー、為替レートエラー、ウェブフック受信失敗など、一般的な問題への解決方法をご案内します。</p>
+                <div class="bg-yellow-50 p-6 rounded-lg mt-4 border-l-4 border-yellow-400">
+                    <p class="text-yellow-800 font-medium"><strong>Q. <code>401 Unauthorized</code>エラーが発生します。</strong></p>
+                    <p class="text-yellow-700 mt-2"><strong>A.</strong> APIキー、IPホワイトリスト設定、APIアクセス権限などを再度ご確認ください。運用プラットフォームでAPIキーの状態を点検できます。</p>
+                </div>
+                <div class="bg-yellow-50 p-6 rounded-lg mt-4 border-l-4 border-yellow-400">
+                    <p class="text-yellow-800 font-medium"><strong>Q. ウェブフックを受信できません。</strong></p>
+                    <p class="text-yellow-700 mt-2"><strong>A.</strong> 下記の事項をご点検ください。</p>
+                    <ul class="list-disc list-inside mt-2 text-yellow-700 space-y-1">
+                        <li>登録されたコールバックURLのアクセス可否確認</li>
+                        <li>HTTPS設定確認</li>
+                        <li>ファイアウォール設定確認</li>
+                        <li>署名検証ロジック確認</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="section-12" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">12. 付録</h2>
+                <h3 class="text-2xl font-medium text-gray-700 mt-6 mb-2">A. ネットワーク別アドレス形式</h3>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li><strong>TRON (TRX):</strong> 34文字、'T'で開始。例：<code>TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE</code></li>
+                    <li><strong>Ethereum (ETH):</strong> 42文字（0x含む）、'0x'で開始。例：<code>0x742d35Cc6634C0532925a3b8D2e4d8A4c7C6b0a5</code></li>
+                    <li><strong>Bitcoin (BTC):</strong> 26-35文字、'1'、'3'、'bc1'で開始。例：<code>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</code></li>
+                </ul>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">B. 対応資産リスト</h3>
+                <h4 class="text-xl font-medium text-gray-600 mt-4">法定通貨（CASH）：</h4>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Asset ID</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Symbol</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Name</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Network</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Type</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Decimals</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">1</td><td class="py-4 px-6 text-gray-600">KRW</td><td class="py-4 px-6 text-gray-600">Korean Won</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">0</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">2</td><td class="py-4 px-6 text-gray-600">USD</td><td class="py-4 px-6 text-gray-600">USD Dollar</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">6</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">3</td><td class="py-4 px-6 text-gray-600">JPY</td><td class="py-4 px-6 text-gray-600">Japanese Yen</td><td class="py-4 px-6 text-gray-600">LEGAL</td><td class="py-4 px-6 text-gray-600">CASH</td><td class="py-4 px-6 text-gray-600">2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h4 class="text-xl font-medium text-gray-600 mt-8">暗号通貨（COIN/TOKEN）：</h4>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Asset ID</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Symbol</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Name</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Network</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Type</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Decimals</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">Contract Address</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">101</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">TRON</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">COIN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">-</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">102</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">Ethereum</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">COIN</td><td class="py-4 px-6 text-gray-600">18</td><td class="py-4 px-6 text-gray-600">-</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1001</td><td class="py-4 px-6 text-gray-600">USDT</td><td class="py-4 px-6 text-gray-600">Tether USD - TRC20</td><td class="py-4 px-6 text-gray-600">TRX</td><td class="py-4 px-6 text-gray-600">TOKEN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1002</td><td class="py-4 px-6 text-gray-600">USDT</td><td class="py-4 px-6 text-gray-600">Tether USD - ERC20</td><td class="py-4 px-6 text-gray-600">ETH</td><td class="py-4 px-6 text-gray-600">TOKEN</td><td class="py-4 px-6 text-gray-600">6</td><td class="py-4 px-6 text-gray-600">0xdac17f958d2ee523a2206206994597c13d831ec7</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2">C. 変更履歴</h3>
+                <p class="text-gray-600">ドキュメントの主要アップデート内容とバージョンを記録します。</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">バージョン</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">変更内容</th>
+                                <th class="py-3 px-6 text-left text-sm font-semibold text-gray-600">日付</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-4 px-6 text-gray-800">1.0.0</td><td class="py-4 px-6 text-gray-600">初版ドキュメント発行</td><td class="py-4 px-6 text-gray-600">2024.01.01</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1.0.1</td><td class="py-4 px-6 text-gray-600">APIキー発行手続き・FAQセクション追加</td><td class="py-4 px-6 text-gray-600">2024.01.15</td></tr>
+                            <tr><td class="py-4 px-6 text-gray-800">1.1.0</td><td class="py-4 px-6 text-gray-600">Webhook署名検証ガイド・Mermaidダイアグラム追加</td><td class="py-4 px-6 text-gray-600">2024.02.01</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="mt-16 text-center text-gray-500 text-sm">
+            <p>&copy; 2024 Crypto Payment Solution. All rights reserved.</p>
+            <p class="mt-2">この文書はパートナー企業様の円滑な連携のために作成されました。追加のお問い合わせがございましたら、いつでもご連絡ください。</p>
+        </footer>
+    </div>
+
+    <button id="scrollToTopBtn" class="scroll-to-top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
+    <script>
+        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add("visible");
+            } else {
+                scrollToTopBtn.classList.remove("visible");
+            }
+        });
+        scrollToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+</body>
+</html>

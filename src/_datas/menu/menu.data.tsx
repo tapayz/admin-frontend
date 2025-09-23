@@ -62,9 +62,8 @@ export const menuData: Menu[] = [
     items: [
       {
         text: "menu.api.documentation",
-        href: "https://docs.tapayz.com/",
-        icon: <BookOpen />,
-        newTab: true,
+        href: "/integration",
+        icon: <BookOpen />
       },
     ],
   },
