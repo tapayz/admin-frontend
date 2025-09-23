@@ -21,6 +21,12 @@ export const partnerCreateModalUserSchema = z
       })
       .min(0, { message: "partner.feeRateMinErrorMessage" })
       .max(100, { message: "partner.feeRateMaxErrorMessage" }),
+    txFeeRate: z
+      .number({
+        message: "partner.txFeeRateEmptyErrorMessage",
+      })
+      .min(0, { message: "partner.txFeeRateMinErrorMessage" })
+      .max(100, { message: "partner.txFeeRateMaxErrorMessage" }),
   })
   .refine((data) => data.password === data.rePassword, {
     path: ["rePassword"],
@@ -49,6 +55,11 @@ export const partnerInfoUpdateSchema = z
       .number()
       .min(0, { message: "partner.feeRateMinErrorMessage" })
       .max(100, { message: "partner.feeRateMaxErrorMessage" })
+      .optional(),
+    txFeeRate: z
+      .number()
+      .min(0, { message: "partner.txFeeRateMinErrorMessage" })
+      .max(100, { message: "partner.txFeeRateMaxErrorMessage" })
       .optional(),
     bitAddress: z.string().optional(),
     ethAddress: z.string().optional(),

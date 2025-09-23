@@ -256,6 +256,34 @@ const PartnerCreateModal = ({
                   </ErrorMessage>
                 )}
               </InputSection>
+              <InputSection
+                heading="h3"
+                headingText={`${t("partner.txFeeRate")}(%)`}
+                gridType="col"
+                cssStyle={partnerCreateModalCss.inputSection}
+              >
+                <TextInput
+                  type="number"
+                  rightIcon={<Percent size={14} color="#c2c4c8" />}
+                  cssStyle={partnerCreateModalCss.numberInput}
+                  {...(partnerInfo
+                    ? updateForm.register("txFeeRate", {
+                        valueAsNumber: true,
+                      })
+                    : register("txFeeRate", {
+                        valueAsNumber: true,
+                      }))}
+                />
+                {(errors.txFeeRate || updateForm.formState.errors.txFeeRate) && (
+                  <ErrorMessage isRelative={true}>
+                    {t(
+                      errors.txFeeRate?.message ??
+                        updateForm.formState.errors.txFeeRate?.message ??
+                        ""
+                    )}
+                  </ErrorMessage>
+                )}
+              </InputSection>
             </div>
             <div css={partnerCreateModalCss.buttonWrapper}>
               <Button buttonType="primary">

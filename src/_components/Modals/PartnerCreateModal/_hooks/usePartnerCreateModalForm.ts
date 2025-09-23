@@ -38,6 +38,7 @@ export const usePartnerCreateModalForm = ({
       password: "",
       rePassword: "",
       feeRate: 0,
+      txFeeRate: 0,
     },
   });
 
@@ -49,6 +50,7 @@ export const usePartnerCreateModalForm = ({
       name: "",
       callback: "",
       feeRate: 0,
+      txFeeRate: 0,
       bitAddress: "",
       ethAddress: "",
       trxAddress: "",
@@ -73,6 +75,7 @@ export const usePartnerCreateModalForm = ({
         password: formData.password,
         rePassword: formData.rePassword,
         feeRate: formData.feeRate,
+        txFeeRate: formData.txFeeRate,
       };
 
       createPartner(createPartnerData);
@@ -85,6 +88,7 @@ export const usePartnerCreateModalForm = ({
       name: formData.name === "" ? undefined : formData.name,
       callback: formData.callback === "" ? undefined : formData.callback,
       feeRate: formData.feeRate,
+      txFeeRate: formData.txFeeRate,
       bitAddress: formData.bitAddress === "" ? undefined : formData.bitAddress,
       ethAddress: formData.ethAddress === "" ? undefined : formData.ethAddress,
       trxAddress: formData.trxAddress === "" ? undefined : formData.trxAddress,
