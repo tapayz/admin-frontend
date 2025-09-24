@@ -12,9 +12,16 @@ export const useLogoutMutation = () => {
 
   return useMutation({
     mutationFn: logout,
-    onSuccess: () => {
+    onSuccess: (message) => {
+      // 로컬 상태 정리
       setSession(null);
-      toast.success(t("logout.success"));
+      localStorage.removeItem('signinTime');
+      localStorage.removeItem('session');
+
+      // 성공 메시지 표시
+      toast.success(message || t("logout.success"));
+
+      // 로그인 페이지로 이동
       router.push("/signin");
     },
     onError: (error) => {
