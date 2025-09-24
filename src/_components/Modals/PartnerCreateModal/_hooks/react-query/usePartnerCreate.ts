@@ -10,7 +10,7 @@ import { useLocale } from "@/_hooks/useLocale";
 import { partnerListOptions } from "@/_layouts/partner/_hooks/react-query/usePartnerListQuery";
 import { useFilter } from "@/_hooks/useFilter";
 
-export const usePartnerCreate = () => {
+export const usePartnerCreate = (onSuccessCallback?: () => void) => {
   const { setIsModalOpen, setIsExitModalOpen } = useCreateModalStore();
   const params = useSearchParams();
   const targetAgentId = params.get("targetAgentId") || undefined;
@@ -32,6 +32,7 @@ export const usePartnerCreate = () => {
       queryClient.invalidateQueries({
         queryKey: partnerListOptions({ page, limit }).queryKey,
       });
+      onSuccessCallback?.();
     },
     onError: (error: AxiosError<{ message: string }>) => {
       console.error("Partner create error:", error);

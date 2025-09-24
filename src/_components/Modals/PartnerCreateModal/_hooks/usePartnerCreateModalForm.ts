@@ -23,7 +23,7 @@ export const usePartnerCreateModalForm = ({
   data,
   onSuccess,
 }: UsePartnerCreateModalFormProps) => {
-  const { mutate: createPartner } = usePartnerCreate();
+  const { mutate: createPartner } = usePartnerCreate(onSuccess);
   const { t } = useLocale();
   const {
     register,

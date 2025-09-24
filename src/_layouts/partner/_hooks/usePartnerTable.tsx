@@ -158,7 +158,7 @@ export const usePartnersTable = ({
           size: 250,
           id: "hierarchyInfo",
           cell: ({ row }) => {
-            const { name, hasChildren, isExpanded, depth, id } =
+            const { name, hasChildren, isExpanded, depth } =
               row.original;
             const indentWidth = depth * 20;
 
@@ -182,29 +182,14 @@ export const usePartnersTable = ({
                   <span style={{ width: "24px", marginRight: "8px" }}>→</span>
                 )}
 
-                <div className="flex flex-col" style={{ gap: "4px" }}>
-                  <div className="flex items-center" style={{ gap: "8px" }}>
-                    <Badge
-                      type={getBadgeTypeByLevel(depth)}
-                      cssStyle={css`
-                        font-weight: bold;
-                      `}
-                    >
-                      {name}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center" style={{ gap: "8px" }}>
-                    <Badge type="default">{t("profile.id")}</Badge>
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: theme.colors.coolGray600,
-                      }}
-                    >
-                      {id}
-                    </span>
-                  </div>
-                </div>
+                <Badge
+                  type={getBadgeTypeByLevel(depth)}
+                  cssStyle={css`
+                    font-weight: bold;
+                  `}
+                >
+                  {name}
+                </Badge>
               </div>
             );
           },
