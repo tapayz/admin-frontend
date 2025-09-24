@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'crypted-pay',
+      name: 'tapayz',
       script: 'npm',
       args: 'start',                 // next start (프로덕션)
       watch: false,
