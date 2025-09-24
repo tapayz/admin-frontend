@@ -3,9 +3,13 @@ export interface PartnerWallet {
   address: string | null;
 }
 
+export interface AccountName {
+	  account: string;
+}
+
 export interface GetMyInfoResponseDto {
   id: string;
-  account: string;
+  Account: AccountName[];
   key: number;
   name: string;
   icon: string;

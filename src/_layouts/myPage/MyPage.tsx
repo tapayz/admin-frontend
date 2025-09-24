@@ -61,7 +61,7 @@ const MyPageContainer = () => {
             headingText={t("profile.id")}
             cssStyle={myPageCss.inputSection}
           >
-            <p>{myInfoData?.account}</p>
+            <p>{myInfoData?.Account[0]?.account}</p>
           </InputSection>
           <InputSection
             heading="h3"
