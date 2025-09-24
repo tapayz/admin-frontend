@@ -4,4 +4,5 @@ export interface PartnerCreateDto {
   password: string;
   rePassword: string;
   feeRate: number;
+  txFeeRate: number;
 }

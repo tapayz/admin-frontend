@@ -241,37 +241,70 @@ const PartnerCreateModal = ({
                   </span>
                 )}
               </div>
-              <InputSection
-                heading="h3"
-                headingText={`${t("partner.feeRate")}(%)`}
-                gridType="col"
-                cssStyle={partnerCreateModalCss.inputSection}
-              >
-                <TextInput
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  max="100"
-                  rightIcon={<Percent size={14} color="#c2c4c8" />}
-                  cssStyle={partnerCreateModalCss.numberInput}
-                  {...(partnerInfo
-                    ? updateForm.register("feeRate", {
-                        valueAsNumber: true,
-                      })
-                    : register("feeRate", {
-                        valueAsNumber: true,
-                      }))}
-                />
-                {(errors.feeRate || updateForm.formState.errors.feeRate) && (
-                  <ErrorMessage isRelative={true}>
-                    {t(
-                      errors.feeRate?.message ??
-                        updateForm.formState.errors.feeRate?.message ??
-                        ""
-                    )}
-                  </ErrorMessage>
-                )}
-              </InputSection>
+              <div css={partnerCreateModalCss.gridWrapper(2)}>
+                <InputSection
+                  heading="h3"
+                  headingText={`${t("fee.exchangeFee")}(%)`}
+                  gridType="col"
+                  cssStyle={partnerCreateModalCss.inputSection}
+                >
+                  <TextInput
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="100"
+                    rightIcon={<Percent size={14} color="#c2c4c8" />}
+                    cssStyle={partnerCreateModalCss.numberInput}
+                    {...(partnerInfo
+                      ? updateForm.register("feeRate", {
+                          valueAsNumber: true,
+                        })
+                      : register("feeRate", {
+                          valueAsNumber: true,
+                        }))}
+                  />
+                  {(errors.feeRate || updateForm.formState.errors.feeRate) && (
+                    <ErrorMessage isRelative={true}>
+                      {t(
+                        errors.feeRate?.message ??
+                          updateForm.formState.errors.feeRate?.message ??
+                          ""
+                      )}
+                    </ErrorMessage>
+                  )}
+                </InputSection>
+                <InputSection
+                  heading="h3"
+                  headingText={`${t("fee.transactionFee")}(%)`}
+                  gridType="col"
+                  cssStyle={partnerCreateModalCss.inputSection}
+                >
+                  <TextInput
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="100"
+                    rightIcon={<Percent size={14} color="#c2c4c8" />}
+                    cssStyle={partnerCreateModalCss.numberInput}
+                    {...(partnerInfo
+                      ? updateForm.register("txFeeRate", {
+                          valueAsNumber: true,
+                        })
+                      : register("txFeeRate", {
+                          valueAsNumber: true,
+                        }))}
+                  />
+                  {(errors.txFeeRate || updateForm.formState.errors.txFeeRate) && (
+                    <ErrorMessage isRelative={true}>
+                      {t(
+                        errors.txFeeRate?.message ??
+                          updateForm.formState.errors.txFeeRate?.message ??
+                          ""
+                      )}
+                    </ErrorMessage>
+                  )}
+                </InputSection>
+              </div>
             </div>
             <div css={partnerCreateModalCss.buttonWrapper}>
               <Button buttonType="primary">
