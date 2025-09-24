@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
+
+	// 미들웨어 임시 비활성화 - 모든 요청 통과
+	return NextResponse.next();
+
   // 로그인이 필요없는 경로들
   const publicPaths = ['/signin', '/api/auth', '/payment'];
   const pathname = request.nextUrl.pathname;
