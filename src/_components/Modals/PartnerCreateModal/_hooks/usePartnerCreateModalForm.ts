@@ -95,7 +95,7 @@ export const usePartnerCreateModalForm = ({
       ethAddress: formData.ethAddress === "" ? undefined : formData.ethAddress,
       trxAddress: formData.trxAddress === "" ? undefined : formData.trxAddress,
     };
-    updatePartnerInfo({ partnerId: data?.partner.id ?? 0, data: updateData });
+    updatePartnerInfo({ partnerId: data?.agent.id ?? 0, data: updateData });
   };
 
   return {
