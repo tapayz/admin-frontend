@@ -19,7 +19,7 @@ export default function ClientProviders({ children }: PropsWithChildren) {
 					disableTransitionOnChange
 				>
 					<QueryProvider>
-						<AuthProvider>{children}</AuthProvider>
+						{children}
 					</QueryProvider>
 					<Toaster position="top-center" containerClassName="text-[12px]" />
 				</ThemeProvider>
