@@ -12,23 +12,30 @@ type Props = {
 
 function AuthProvider({ children }: Props) {
 	const { session, setSession } = useSessionStore();
-	const { data: myInfoData, isLoading, isError } = useMyInfoQuery();
-	const { mutate: logout, isPending: isLoggingOut } = useLogoutMutation();
+	const { data: myInfoData, isLoading, isError, refetch } = useMyInfoQuery();
+	const { mutate: logout } = useLogoutMutation();
 
 	useEffect(() => {
 		const sessionItem = localStorage.getItem("session");
+		if (sessionItem && !session) {
+			refetch();
+		}
+	}, []);
 
+	useEffect(() => {
 		if (myInfoData && !session) {
 			setSession(myInfoData);
 		}
+	}, [myInfoData, session, setSession]);
 
-		// 로그아웃 중이 아닐 때만 로그아웃 호출 (무한 루프 방지)
-		if ((!sessionItem || isError) && !isLoggingOut) {
+	useEffect(() => {
+		const sessionItem = localStorage.getItem("session");
+		if (isError || !sessionItem) {
 			logout();
 		}
-	}, [myInfoData, isError, session, isLoggingOut, logout]);
+	}, [isError, logout]);
 
-	if (isLoading || isLoggingOut) return <Loader />;
+	if (isLoading) return <Loader />;
 
 	return <>{children}</>;
 }
