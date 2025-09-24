@@ -40,6 +40,13 @@ const PartnerCreateModal = ({
   const { isMobile } = useResize();
   const { data: partnerInfo, isLoading: isPartnerInfoLoading } =
     useAgencyInfoQuery(partnerId ?? null);
+  const handleSuccess = () => {
+    setIsExitModalOpen(false);
+    setIsPrefixCheck(false);
+    resetPrefixValues();
+    onClose();
+  };
+
   const {
     register,
     errors,
@@ -50,6 +57,7 @@ const PartnerCreateModal = ({
     updateForm,
   } = usePartnerCreateModalForm({
     data: partnerInfo,
+    onSuccess: handleSuccess,
   });
 
   const handleCloseModal = () => {
@@ -224,9 +232,14 @@ const PartnerCreateModal = ({
                     </ErrorMessage>
                   )}
                 </InputSection>
-                <span css={partnerCreateModalCss.passwordInfo}>
-                  {t("profile.passwordMessage")}
-                </span>
+                {(errors.password ||
+                  errors.rePassword ||
+                  updateForm.formState.errors.password ||
+                  updateForm.formState.errors.rePassword) && (
+                  <span css={partnerCreateModalCss.passwordInfo}>
+                    {t("profile.passwordMessage")}
+                  </span>
+                )}
               </div>
               <InputSection
                 heading="h3"
@@ -236,6 +249,9 @@ const PartnerCreateModal = ({
               >
                 <TextInput
                   type="number"
+                  step="0.01"
+                  min="0"
+                  max="100"
                   rightIcon={<Percent size={14} color="#c2c4c8" />}
                   cssStyle={partnerCreateModalCss.numberInput}
                   {...(partnerInfo
