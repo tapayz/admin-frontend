@@ -138,20 +138,6 @@ export const usePartnersTable = ({
           },
         }),
 
-        columnHelper.display({
-          header: t("partner.list.level"),
-          size: 80,
-          id: "level",
-          cell: ({ row }) => {
-            return (
-              <div className="text-center">
-                <Badge type={getBadgeTypeByLevel(row.original.level)}>
-                  Level {row.original.level}
-                </Badge>
-              </div>
-            );
-          },
-        }),
 
         columnHelper.display({
           header: t("profile.name"),

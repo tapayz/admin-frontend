@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useLocale } from "@/_hooks/useLocale";
 import { useSessionStore } from "@/_stores/useSessionStore";
 import { useRouter } from "next/navigation";
+import dayjs from 'dayjs';
 
 export const useLoginMutation = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ export const useLoginMutation = () => {
       login({ id, password: pw, provider }),
     onSuccess: () => {
       router.replace("/dashboard");
+		localStorage.setItem('session', dayjs(new Date()).format("YYYY-MM-DD (HH:mm:ss)"));
     },
     onError: (error: AxiosError<{ message: string }>) => {
       console.error(error);

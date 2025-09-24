@@ -16,7 +16,7 @@ export const useLogoutMutation = () => {
 			// 로컬 상태 정리
 			setSession(null);
 			// localStorage.removeItem('signinTime');
-			// localStorage.removeItem('session');
+			localStorage.removeItem('session');
 
 			// 성공 메시지 표시
 			toast.success(t("logout.success"));
