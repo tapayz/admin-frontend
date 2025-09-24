@@ -5,6 +5,7 @@ export interface PartnerWallet {
 
 export interface GetMyInfoResponseDto {
   id: string;
+  account: string;
   key: number;
   name: string;
   icon: string;
