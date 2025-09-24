@@ -6,6 +6,7 @@ import Header from "../header/Header";
 import { adminLayoutCss } from "./AdminLayout.styles";
 import Footer from "../footer/Footer";
 import { useThemeStore } from "@/_stores/useThemeStore";
+import AuthProvider from '@/_components/AuthProvider';
 const AdminLayoutContainer = ({ children }: { children: React.ReactNode }) => {
   const { isSideBar } = useThemeStore();
 
@@ -19,7 +20,7 @@ const AdminLayoutContainer = ({ children }: { children: React.ReactNode }) => {
           css={[adminLayoutCss.main, !isSideBar && adminLayoutCss.mainSideBar]}
           className="custom-scrollbar-not-hide"
         >
-          {children}
+          <AuthProvider>{children}</AuthProvider>
         </main>
         <Footer />
       </div>
