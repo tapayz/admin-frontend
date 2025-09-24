@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { myInfoOptions } from "@/_commomActions/myInfo/react-query/useMyInfoQuery";
 import { useTableColumnStore } from "@/_layouts/invoice/_store/useTableColumnStore";
 
-export const usePartnerInfoUpdateMutation = () => {
+export const usePartnerInfoUpdateMutation = (onSuccess?: () => void) => {
   const { setId } = useTableColumnStore();
   const queryClient = useQueryClient();
   return useMutation({
@@ -14,6 +14,7 @@ export const usePartnerInfoUpdateMutation = () => {
       setId("");
       toast.success("Partner info updated successfully");
       queryClient.invalidateQueries({ queryKey: myInfoOptions.queryKey });
+      onSuccess?.();
     },
     onError: (error: AxiosError<{ message: string }>) => {
       toast.error(

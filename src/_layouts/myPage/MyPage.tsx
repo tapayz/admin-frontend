@@ -61,7 +61,7 @@ const MyPageContainer = () => {
             headingText={t("profile.id")}
             cssStyle={myPageCss.inputSection}
           >
-            <p>{myInfoData?.idCode}</p>
+            <p>{myInfoData?.id}</p>
           </InputSection>
           <InputSection
             heading="h3"
@@ -226,56 +226,14 @@ const MyPageContainer = () => {
             headingText={`${t("fee.exchangeFee")}(%)`}
             cssStyle={myPageCss.inputSection}
           >
-            <div css={myPageCss.apiKeyWrapper}>
-              <TextInput
-                cssStyle={myPageCss.apiInfoInput}
-                value={exchangeFeeRate}
-                placeholder="0-100"
-                onChange={(e) =>
-                  handleFeeRateChange(e.target.value, setExchangeFeeRate)
-                }
-                rightIcon={<>%</>}
-              />
-              <Button
-                buttonType="primary"
-                onClick={() => updateExchangeFee(parseFloat(exchangeFeeRate))}
-                disabled={
-                  isUpdating === "exchangeFee" || isLoading || !exchangeFeeRate
-                }
-              >
-                {exchangeFeeRate ? t("common.edit") : t("setting")}
-              </Button>
-            </div>
+            <p>{exchangeFeeRate}%</p>
           </InputSection>
           <InputSection
             heading="h3"
             headingText={`${t("fee.transactionFee")}(%)`}
             cssStyle={myPageCss.inputSection}
           >
-            <div css={myPageCss.apiKeyWrapper}>
-              <TextInput
-                cssStyle={myPageCss.apiInfoInput}
-                value={transactionFeeRate}
-                placeholder="0-100"
-                onChange={(e) =>
-                  handleFeeRateChange(e.target.value, setTransactionFeeRate)
-                }
-                rightIcon={<>%</>}
-              />
-              <Button
-                buttonType="primary"
-                onClick={() =>
-                  updateTransactionFee(parseFloat(transactionFeeRate))
-                }
-                disabled={
-                  isUpdating === "transactionFee" ||
-                  isLoading ||
-                  !transactionFeeRate
-                }
-              >
-                {transactionFeeRate ? t("common.edit") : t("setting")}
-              </Button>
-            </div>
+            <p>{transactionFeeRate}%</p>
           </InputSection>
         </div>
       </section>

@@ -158,7 +158,7 @@ export const usePartnersTable = ({
           size: 250,
           id: "hierarchyInfo",
           cell: ({ row }) => {
-            const { name, hasChildren, isExpanded, depth, idCode } =
+            const { name, hasChildren, isExpanded, depth, id } =
               row.original;
             const indentWidth = depth * 20;
 
@@ -201,7 +201,7 @@ export const usePartnersTable = ({
                         color: theme.colors.coolGray600,
                       }}
                     >
-                      {idCode}
+                      {id}
                     </span>
                   </div>
                 </div>

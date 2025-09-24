@@ -16,10 +16,12 @@ import { GetAgencyInfoResponse } from "@/_commomActions/agencyInfo/_dtos/getAgen
 
 interface UsePartnerCreateModalFormProps {
   data: GetAgencyInfoResponse | null | undefined;
+  onSuccess?: () => void;
 }
 
 export const usePartnerCreateModalForm = ({
   data,
+  onSuccess,
 }: UsePartnerCreateModalFormProps) => {
   const { mutate: createPartner } = usePartnerCreate();
   const { t } = useLocale();
@@ -56,7 +58,7 @@ export const usePartnerCreateModalForm = ({
       trxAddress: "",
     },
   });
-  const { mutate: updatePartnerInfo } = usePartnerInfoUpdateMutation();
+  const { mutate: updatePartnerInfo } = usePartnerInfoUpdateMutation(onSuccess);
 
   /**
    * 폼 제출 시 실행되는 함수
@@ -93,7 +95,7 @@ export const usePartnerCreateModalForm = ({
       ethAddress: formData.ethAddress === "" ? undefined : formData.ethAddress,
       trxAddress: formData.trxAddress === "" ? undefined : formData.trxAddress,
     };
-    // updatePartnerInfo({ partnerId: data?.partner.id ?? 0, data: updateData });
+    updatePartnerInfo({ partnerId: data?.partner.id ?? 0, data: updateData });
   };
 
   return {
