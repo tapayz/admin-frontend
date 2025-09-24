@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { logout } from "../../_actions/logout";
 import { useSessionStore } from "@/_stores/useSessionStore";
 import { useLocale } from "@/_hooks/useLocale";
 import toast from "react-hot-toast";
@@ -11,12 +10,17 @@ export const useLogoutMutation = () => {
 	const router = useRouter();
 
 	return useMutation({
-		mutationFn: logout,
+		mutationFn: async () => {
+			// 서버 API 호출 없이 클라이언트에서만 로그아웃 처리
+			return "로그아웃 되었습니다.";
+		},
 		onSuccess: (message) => {
 			// 로컬 상태 정리
 			setSession(null);
-			// localStorage.removeItem('signinTime');
 			localStorage.removeItem('session');
+
+			// 쿠키 삭제
+			document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
 
 			// 성공 메시지 표시
 			toast.success(message || t("logout.success"));
